@@ -16,6 +16,7 @@ namespace IdentityServerAspNetIdentity
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
         }
 
@@ -102,6 +103,29 @@ namespace IdentityServerAspNetIdentity
                         IdentityServerConstants.StandardScopes.Profile,
                         "api1"
                     }
+                },
+                new Client
+                {
+                    ClientId = "native.code",
+                    ClientName = "Native Client (Code with PKCE)",
+
+                    RedirectUris = { "https://notused" },
+                    PostLogoutRedirectUris = { "https://notused" },
+
+                    RequireClientSecret = false,
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "api1"
+                    },
+
+                    AllowOfflineAccess = true,
+                    RefreshTokenUsage = TokenUsage.ReUse
                 }
             };
         }

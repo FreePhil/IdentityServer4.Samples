@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using IdentityServer4.Validation;
 
 namespace IdentityServerAspNetIdentity
 {
@@ -74,6 +75,8 @@ namespace IdentityServerAspNetIdentity
                     options.ClientId = "904877914910-i5o6769bend3vuba91lir7umevurip1f.apps.googleusercontent.com";
                     options.ClientSecret = "Yq05i4fpnmALLPXItDMyXsGT";
                 });
+            
+            services.AddTransient<IRedirectUriValidator, HanlinRedirectValidator>();
         }
 
         public void Configure(IApplicationBuilder app)
