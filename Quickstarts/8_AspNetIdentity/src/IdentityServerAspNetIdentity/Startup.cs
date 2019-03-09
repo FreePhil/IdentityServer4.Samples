@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace IdentityServerAspNetIdentity
 {
@@ -38,7 +39,8 @@ namespace IdentityServerAspNetIdentity
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            services.Configure<EmailSetting>(Configuration.GetSection("EmailSetting"));
 
             services.Configure<IISOptions>(iis =>
             {
@@ -78,12 +80,17 @@ namespace IdentityServerAspNetIdentity
                     options.ClientId = "904877914910-i5o6769bend3vuba91lir7umevurip1f.apps.googleusercontent.com";
                     options.ClientSecret = "Yq05i4fpnmALLPXItDMyXsGT";
                 });
-            
+
+            services.AddOptions();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IRedirectUriValidator, HanlinRedirectValidator>();
+            
+            services.Configure<EmailSetting>(options => Configuration.GetSection("EmailSetting").Bind(options));
         }
 
         public void Configure(IApplicationBuilder app)
         {
+//            var server = Configuration.GetSection("EmailSetting").Get<EmailSetting>();
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

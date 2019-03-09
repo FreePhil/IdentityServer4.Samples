@@ -11,9 +11,9 @@ namespace IdentityServerAspNetIdentity
     {
         private readonly EmailSetting emailSetting;
         
-        public EmailSender(IOptions<EmailSetting> emailSetting)
+        public EmailSender(IOptions<EmailSetting> emailSettingOptions)
         {
-            emailSetting = emailSetting;
+            emailSetting = emailSettingOptions.Value;
         }
         
         public Task SendEmailAsync(string recipientEmail, string subject, string htmlMessage)
@@ -21,15 +21,15 @@ namespace IdentityServerAspNetIdentity
             try
             {
                 // Credentials
-                var credentials = new NetworkCredential(emailSetting.Sender, emailSetting.Password);
+                var credential = new NetworkCredential(emailSetting.UserName, emailSetting.Password);
 
                 // Mail message
                 var mail = new MailMessage()
                 {
-                    From = new MailAddress(emailSetting.Sender, emailSetting.SenderName),
+                    From = new MailAddress(emailSetting.SenderEmail, emailSetting.SenderName),
                     Subject = subject,
                     Body = htmlMessage,
-                    IsBodyHtml = true
+                    IsBodyHtml = false
                 };
 
                 mail.To.Add(new MailAddress(recipientEmail));
@@ -37,14 +37,14 @@ namespace IdentityServerAspNetIdentity
                 // Smtp client
                 var client = new SmtpClient()
                 {
-                    Port = emailSetting.MailPort,
+                    Host = emailSetting.Server,
+                    Port = emailSetting.Port,
+                    Credentials = credential,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
-                    Host = emailSetting.MailServer,
                     EnableSsl = true,
-                    Credentials = credentials
                 };
-
+                
                 return client.SendMailAsync(mail);
             }
             catch (Exception ex)

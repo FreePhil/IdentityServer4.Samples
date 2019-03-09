@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -200,6 +201,13 @@ namespace IdentityServer4.Quickstart.UI
             }
 
             return View("LoggedOut", vm);
+        }
+        
+        [HttpGet]
+        public async Task Confirm([FromServices] IEmailSender emailSender)
+        {
+            await emailSender.SendEmailAsync("phil@ms1.hanlin.com.tw", "test", "test");
+            return;
         }
 
 

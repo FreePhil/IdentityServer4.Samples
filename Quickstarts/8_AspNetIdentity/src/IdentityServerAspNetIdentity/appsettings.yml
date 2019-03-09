@@ -1,0 +1,7 @@
+EmailSetting:
+  Server: email-smtp.us-east-1.amazonaws.com
+  Port: 587
+  UserName: AKIAIZ5JQLZSTMYSCQPA
+  Password: encryped secret
+  SenderName: 會員中心
+  SenderEmail: worldoneedm@worldone.com.tw
