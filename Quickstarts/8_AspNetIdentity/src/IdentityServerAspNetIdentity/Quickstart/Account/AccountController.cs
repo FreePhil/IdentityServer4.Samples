@@ -18,8 +18,10 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using System.IO;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -64,7 +66,6 @@ namespace IdentityServer4.Quickstart.UI
                 // we only have one option for logging in and it's an external provider
                 return RedirectToAction("Challenge", "External", new { provider = vm.ExternalLoginScheme, returnUrl });
             }
-
             return View(vm);
         }
 
@@ -208,7 +209,16 @@ namespace IdentityServer4.Quickstart.UI
         [HttpGet]
         public async Task<IActionResult> Confirm([FromServices] IEmailSender emailSender)
         {
-            await emailSender.SendEmailAsync("phil@ms1.hanlin.com.tw", "test", "test");
+            var bodyBuilder = new StringBuilder();
+
+            using (var reader = System.IO.File.OpenText("template.html"))
+            {
+                bodyBuilder.Append(reader.ReadToEnd());
+            }
+
+            bodyBuilder.Replace("{{name}}", "Bar!");
+            bodyBuilder.Replace("{{link}}", "https://www.hle.com.tw");
+            await emailSender.SendEmailAsync("phil@ms1.hanlin.com.tw", "test", bodyBuilder.ToString());
             return Ok();
         }
 
