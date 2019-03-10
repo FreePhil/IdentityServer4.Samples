@@ -21,7 +21,7 @@ namespace IdentityServerAspNetIdentity
             try
             {
                 // Credentials
-                var credential = new NetworkCredential(emailSetting.UserName, emailSetting.Password);
+                var emailSecret = new NetworkCredential(emailSetting.UserName, emailSetting.Password);
 
                 // Mail message
                 var mail = new MailMessage()
@@ -29,20 +29,16 @@ namespace IdentityServerAspNetIdentity
                     From = new MailAddress(emailSetting.SenderEmail, emailSetting.SenderName),
                     Subject = subject,
                     Body = htmlMessage,
-                    IsBodyHtml = false
+                    IsBodyHtml = true
                 };
 
                 mail.To.Add(new MailAddress(recipientEmail));
-
-                // Smtp client
                 var client = new SmtpClient()
                 {
                     Host = emailSetting.Server,
                     Port = emailSetting.Port,
-                    Credentials = credential,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    EnableSsl = true,
+                    Credentials = emailSecret,
+                    EnableSsl = true
                 };
                 
                 return client.SendMailAsync(mail);
@@ -52,8 +48,6 @@ namespace IdentityServerAspNetIdentity
                 // TODO: handle exception
                 throw new InvalidOperationException(ex.Message);
             }
-
-//            return Task.CompletedTask;
         }
     }
 }

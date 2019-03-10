@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
@@ -204,13 +206,11 @@ namespace IdentityServer4.Quickstart.UI
         }
         
         [HttpGet]
-        public async Task Confirm([FromServices] IEmailSender emailSender)
+        public async Task<IActionResult> Confirm([FromServices] IEmailSender emailSender)
         {
             await emailSender.SendEmailAsync("phil@ms1.hanlin.com.tw", "test", "test");
-            return;
+            return Ok();
         }
-
-
 
         /*****************************************/
         /* helper APIs for the AccountController */
