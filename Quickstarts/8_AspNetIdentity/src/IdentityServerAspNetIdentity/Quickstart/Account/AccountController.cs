@@ -142,6 +142,10 @@ namespace IdentityServer4.Quickstart.UI
                         throw new Exception("invalid return URL");
                     }
                 }
+                else if (result.IsNotAllowed)
+                {
+                    return View("MailConfirmingInfo");
+                }
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
@@ -150,6 +154,28 @@ namespace IdentityServer4.Quickstart.UI
             // something went wrong, show form with error
             var vm = await BuildLoginViewModelAsync(model);
             return View(vm);
+        }
+
+        public IActionResult MailConfirmingInfo()
+        {
+            return View("MailConfirmingInfo");
+        }
+
+        [HttpGet]
+        public IActionResult GetRegister()
+        {
+            return View("Register");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PostRegister(RegisterViewModel userModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Register", userModel);
+            }
+            return Ok();
         }
 
         
