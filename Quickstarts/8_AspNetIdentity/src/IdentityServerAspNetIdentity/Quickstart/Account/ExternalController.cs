@@ -15,6 +15,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using IdentityServerAspNetIdentity.Quickstart.Account;
 
 namespace Host.Quickstart.Account
 {
@@ -96,6 +97,14 @@ namespace Host.Quickstart.Account
             var (user, provider, providerUserId, claims) = await FindUserFromExternalProviderAsync(result);
             if (user == null)
             {
+//                TempData["auth_result"] = new ExternalUserInfo()
+//                {
+//                    Provider = provider,
+//                    ProviderUserId = providerUserId,
+//                    Claims = claims
+//                };
+                return RedirectToAction("ExternalRegister");
+                var witchOut = 1;
                 // this might be where you might initiate a custom workflow for user registration
                 // in this sample we don't show how that would be done, as our sample implementation
                 // simply auto-provisions new external user
@@ -133,6 +142,38 @@ namespace Host.Quickstart.Account
             return Redirect("~/");
         }
 
+        [HttpGet]
+        public async void ExternalRegister()
+        {
+//            AuthenticateResult result = (AuthenticateResult) TempData["auth_result"];
+            var result = await HttpContext.AuthenticateAsync(IdentityConstants.ExternalScheme);
+            var externalUser = result.Principal;
+            
+            var userIdClaim = externalUser.FindFirst(JwtClaimTypes.Subject) ??
+                              externalUser.FindFirst(ClaimTypes.NameIdentifier) ??
+                              throw new Exception("Unknown userid");
+            
+            var claims = externalUser.Claims.ToList();
+            claims.Remove(userIdClaim);
+
+            var provider = result.Properties.Items["scheme"];
+            var providerUserId = userIdClaim.Value;
+            var email = externalUser.FindFirst(JwtClaimTypes.Email) ??
+                        externalUser.FindFirst(ClaimTypes.Email) ??
+                        throw new Exception("Unknown userid");
+
+            ApplicationUser user = new ApplicationUser()
+            {
+                Email = email.Value,
+                EmailConfirmed = false,
+                UserName = providerUserId
+            };
+
+            await _userManager.CreateAsync(user);
+            
+            await _userManager.AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
+        }
+        
         private async Task<IActionResult> ProcessWindowsLoginAsync(string returnUrl)
         {
             // see if windows auth has already been requested and succeeded
