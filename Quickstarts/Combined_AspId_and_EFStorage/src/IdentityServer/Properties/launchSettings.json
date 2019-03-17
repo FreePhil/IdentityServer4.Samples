@@ -19,7 +19,7 @@
     },
     "SelfHost": {
       "commandName": "Project",
-      "commandLineArgs": "",
+      "commandLineArgs": "/seed",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
