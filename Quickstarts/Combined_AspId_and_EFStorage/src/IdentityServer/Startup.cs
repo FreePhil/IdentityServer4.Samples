@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
+using IdentityModel;
+using IdentityServer4;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityServerAspNetIdentity
 {
@@ -89,6 +92,19 @@ namespace IdentityServerAspNetIdentity
                     // set the redirect URI to http://localhost:5000/signin-google
                     options.ClientId = "904877914910-i5o6769bend3vuba91lir7umevurip1f.apps.googleusercontent.com";
                     options.ClientSecret = "Yq05i4fpnmALLPXItDMyXsGT";
+                })
+                .AddOpenIdConnect("oidc", "OpenID Connect", options =>
+                {
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
+                    options.SignOutScheme = IdentityServerConstants.SignoutScheme;
+
+                    options.Authority = "https://demo.identityserver.io/";
+                    options.ClientId = "implicit";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = "name",
+                        RoleClaimType = "role"
+                    };
                 });
         }
 
