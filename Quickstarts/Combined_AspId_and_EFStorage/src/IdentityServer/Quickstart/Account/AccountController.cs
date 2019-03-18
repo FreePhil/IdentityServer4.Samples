@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -30,6 +32,7 @@ namespace IdentityServer4.Quickstart.UI
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -37,7 +40,8 @@ namespace IdentityServer4.Quickstart.UI
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events)
+            IEventService events,
+            ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -45,6 +49,7 @@ namespace IdentityServer4.Quickstart.UI
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
+            _logger = logger;
         }
 
         /// <summary>
@@ -54,10 +59,12 @@ namespace IdentityServer4.Quickstart.UI
         public async Task<IActionResult> Login(string returnUrl)
         {
             // build a model so we know what to show on the login page
+            _logger.LogDebug("Client request login with return url: {url}", returnUrl);
             var vm = await BuildLoginViewModelAsync(returnUrl);
 
             if (vm.IsExternalLoginOnly)
             {
+                _logger.LogDebug("Enter external login only mode");
                 // we only have one option for logging in and it's an external provider
                 return RedirectToAction("Challenge", "External", new { provider = vm.ExternalLoginScheme, returnUrl });
             }
@@ -74,10 +81,11 @@ namespace IdentityServer4.Quickstart.UI
         {
             // check if we are in the context of an authorization request
             var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
-
+            
             // the user clicked the "cancel" button
             if (button != "login")
             {
+                _logger.LogWarning("Login buttun is not clicked");
                 if (context != null)
                 {
                     // if the user cancels, send a result back into IdentityServer as if they 
@@ -107,6 +115,7 @@ namespace IdentityServer4.Quickstart.UI
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    _logger.LogDebug("Login suceeds");
                     var user = await _userManager.FindByNameAsync(model.Username);
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName));
 

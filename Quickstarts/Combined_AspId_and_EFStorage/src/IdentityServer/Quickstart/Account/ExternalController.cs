@@ -15,6 +15,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Host.Quickstart.Account
 {
@@ -27,19 +28,23 @@ namespace Host.Quickstart.Account
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IEventService _events;
+        private readonly ILogger<ExternalController> _logger;
 
         public ExternalController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
-            IEventService events)
+            IEventService events,
+            ILogger<ExternalController> logger
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _interaction = interaction;
             _clientStore = clientStore;
             _events = events;
+            _logger = logger;
         }
 
         /// <summary>
@@ -48,6 +53,7 @@ namespace Host.Quickstart.Account
         [HttpGet]
         public async Task<IActionResult> Challenge(string provider, string returnUrl)
         {
+            _logger.LogDebug("Prepare to login from external provider: {provider} with returned url: {returnUrl}", provider, returnUrl);
             if (string.IsNullOrEmpty(returnUrl)) returnUrl = "~/";
 
             // validate returnUrl - either it is a valid OIDC URL or back to a local page
@@ -89,6 +95,7 @@ namespace Host.Quickstart.Account
             var result = await HttpContext.AuthenticateAsync(IdentityConstants.ExternalScheme);
             if (result?.Succeeded != true)
             {
+                _logger.LogDebug("Fail to login from external provider");
                 throw new Exception("External authentication error");
             }
 
