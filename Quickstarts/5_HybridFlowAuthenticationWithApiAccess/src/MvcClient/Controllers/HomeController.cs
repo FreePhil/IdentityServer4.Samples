@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using IdentityModel.Client;
+using System.Net.Http.Headers;
 
 namespace MvcClient.Controllers
 {
@@ -23,10 +23,9 @@ namespace MvcClient.Controllers
             return View();
         }
 
-        public async Task Logout()
+        public IActionResult Logout()
         {
-            await HttpContext.SignOutAsync("Cookies");
-            await HttpContext.SignOutAsync("oidc");
+            return SignOut("Cookies", "oidc");
         }
 
         public IActionResult Error()
@@ -34,6 +33,7 @@ namespace MvcClient.Controllers
             return View();
         }
 
+<<<<<<< HEAD
         public async Task<IActionResult> CallApiUsingClientCredentials()
         {
             var tokenClient = new TokenClient("http://localhost:5000/connect/token", "mvc", "secret");
@@ -48,15 +48,18 @@ namespace MvcClient.Controllers
         }
 
         public async Task<IActionResult> CallApiUsingUserAccessToken()
+=======
+        public async Task<IActionResult> CallApi()
+>>>>>>> 213acca612b0e78811f339e5fb846de2e747ce91
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
 
             var client = new HttpClient();
-            client.SetBearerToken(accessToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var content = await client.GetStringAsync("http://localhost:5001/identity");
 
             ViewBag.Json = JArray.Parse(content).ToString();
-            return View("Json");
+            return View("json");
         }
     }
 }

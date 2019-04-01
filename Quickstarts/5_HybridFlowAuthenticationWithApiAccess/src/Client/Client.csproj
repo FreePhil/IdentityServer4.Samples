@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+<<<<<<< HEAD
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <OutputType>Exe</OutputType>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
@@ -8,6 +9,15 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="3.10.4" />
+=======
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityModel" Version="3.10.0" />
+>>>>>>> 213acca612b0e78811f339e5fb846de2e747ce91
   </ItemGroup>
 
 </Project>

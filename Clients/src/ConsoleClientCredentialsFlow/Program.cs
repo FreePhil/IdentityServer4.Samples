@@ -32,8 +32,7 @@ namespace ConsoleClientCredentialsFlow
                 Address = disco.TokenEndpoint,
 
                 ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "api1"
+                ClientSecret = "secret"
             });
 
             if (response.IsError) throw new Exception(response.Error);

@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
-    [Route("[controller]")]
+    [Route("identity")]
     [Authorize]
     public class IdentityController : ControllerBase
     {
-        [HttpGet]
         public IActionResult Get()
         {
             var name = User.Identity.Name;

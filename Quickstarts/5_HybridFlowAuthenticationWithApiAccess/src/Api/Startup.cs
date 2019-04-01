@@ -15,10 +15,11 @@ namespace Api
                 .AddJsonFormatters();
 
             services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication(options =>
+                .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
+<<<<<<< HEAD
                     options.ApiName = "api";
                 });
             services.AddCors(options =>
@@ -28,6 +29,10 @@ namespace Api
                     policy.WithOrigins("http://localhost:5003")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
+=======
+
+                    options.Audience = "api1";
+>>>>>>> 213acca612b0e78811f339e5fb846de2e747ce91
                 });
             });
         }
@@ -35,7 +40,6 @@ namespace Api
         public void Configure(IApplicationBuilder app)
         {
             app.UseAuthentication();
-
             app.UseMvc();
             
         }

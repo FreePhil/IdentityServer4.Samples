@@ -36,8 +36,12 @@ namespace MvcClient
                     
                     options.Scope.Add("api");
                     options.Scope.Add("offline_access");
+<<<<<<< HEAD
                     options.Scope.Add("edu");
                     options.Scope.Add("email");
+=======
+
+>>>>>>> 213acca612b0e78811f339e5fb846de2e747ce91
                     options.ClaimActions.MapJsonKey("website", "website");
                     options.ClaimActions.MapJsonKey("email", "email");
                 });
