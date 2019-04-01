@@ -33,10 +33,13 @@ namespace MvcClient
 
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
-
-                    options.Scope.Add("api1");
+                    
+                    options.Scope.Add("api");
                     options.Scope.Add("offline_access");
+                    options.Scope.Add("edu");
+                    options.Scope.Add("email");
                     options.ClaimActions.MapJsonKey("website", "website");
+                    options.ClaimActions.MapJsonKey("email", "email");
                 });
         }
 

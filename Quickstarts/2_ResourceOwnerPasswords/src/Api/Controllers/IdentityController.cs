@@ -14,6 +14,7 @@ namespace Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            var name = User.Identity.Name;
             return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
     }

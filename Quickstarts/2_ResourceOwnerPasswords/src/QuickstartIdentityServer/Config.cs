@@ -4,6 +4,7 @@
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace QuickstartIdentityServer
 {
@@ -14,7 +15,7 @@ namespace QuickstartIdentityServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("api1", "My API", new List<string>() {"website"})
             };
         }
 
@@ -59,13 +60,21 @@ namespace QuickstartIdentityServer
                 {
                     SubjectId = "1",
                     Username = "alice",
-                    Password = "password"
+                    Password = "password",
+                    Claims = new List<Claim>()
+                    {
+                        new Claim("website", "aaa")
+                    }
                 },
                 new TestUser
                 {
                     SubjectId = "2",
                     Username = "bob",
-                    Password = "password"
+                    Password = "password",
+                    Claims = new List<Claim>()
+                    {
+                        new Claim("website", "bbb")
+                    }
                 }
             };
         }

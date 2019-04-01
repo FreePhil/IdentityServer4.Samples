@@ -18,6 +18,14 @@ namespace QuickstartIdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResource
+                {
+                    DisplayName = "EDU scope",
+                    Name = "edu",
+                    Description = "Show school member",
+                    UserClaims = new List<string> {"a", "b"},
+                }
             };
         }
 
@@ -25,7 +33,7 @@ namespace QuickstartIdentityServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("api", "My API")
             };
         }
 
@@ -57,7 +65,7 @@ namespace QuickstartIdentityServer
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "api1" }
+                    AllowedScopes = { "api" }
                 },
 
                 // OpenID Connect hybrid flow and client credentials client (MVC)
@@ -66,7 +74,7 @@ namespace QuickstartIdentityServer
                     ClientId = "mvc",
                     ClientName = "MVC Client",
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-
+                   
                     ClientSecrets = 
                     {
                         new Secret("secret".Sha256())
@@ -74,14 +82,18 @@ namespace QuickstartIdentityServer
 
                     RedirectUris = { "http://localhost:5002/signin-oidc" },
                     PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
-
+                    
                     AllowedScopes = 
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
+                        IdentityServerConstants.StandardScopes.Email,
+                        "edu",
+                        "api"
                     },
-                    AllowOfflineAccess = true
+                    AllowOfflineAccess = true, 
+                    AlwaysSendClientClaims = true,
+                    AlwaysIncludeUserClaimsInIdToken = true
                 }
             };
         }
@@ -99,7 +111,9 @@ namespace QuickstartIdentityServer
                     Claims = new List<Claim>
                     {
                         new Claim("name", "Alice"),
-                        new Claim("website", "https://alice.com")
+                        new Claim("website", "https://alice.com"),
+                        new Claim("email", "alice@gmail.com"),
+                        new Claim("a", "alice-aaa"),
                     }
                 },
                 new TestUser

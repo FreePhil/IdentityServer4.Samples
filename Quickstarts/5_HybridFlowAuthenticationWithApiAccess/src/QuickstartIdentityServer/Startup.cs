@@ -31,8 +31,9 @@ namespace QuickstartIdentityServer
                     // register your IdentityServer with Google at https://console.developers.google.com
                     // enable the Google+ API
                     // set the redirect URI to http://localhost:port/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
+                    options.ClientId = "904877914910-i5o6769bend3vuba91lir7umevurip1f.apps.googleusercontent.com";
+                    options.ClientSecret = "Yq05i4fpnmALLPXItDMyXsGT";
+                    
                 })
                 .AddOpenIdConnect("oidc", "OpenID Connect", options =>
                 {

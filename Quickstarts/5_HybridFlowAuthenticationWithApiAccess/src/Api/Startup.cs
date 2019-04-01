@@ -19,9 +19,17 @@ namespace Api
                 {
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
-
-                    options.ApiName = "api1";
+                    options.ApiName = "api";
                 });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5003")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app)
@@ -29,6 +37,7 @@ namespace Api
             app.UseAuthentication();
 
             app.UseMvc();
+            
         }
     }
 }
