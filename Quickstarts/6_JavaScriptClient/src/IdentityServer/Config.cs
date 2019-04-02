@@ -25,7 +25,8 @@ namespace IdentityServer
                     Claims = new []
                     {
                         new Claim("name", "Alice"),
-                        new Claim("website", "https://alice.com")
+                        new Claim("website", "https://alice.com"),
+                        new Claim("a", "value-a")
                     }
                 },
                 new TestUser
@@ -37,7 +38,8 @@ namespace IdentityServer
                     Claims = new []
                     {
                         new Claim("name", "Bob"),
-                        new Claim("website", "https://bob.com")
+                        new Claim("website", "https://bob.com"),
+                        new Claim("b", "value-b") 
                     }
                 }
             };
@@ -49,6 +51,13 @@ namespace IdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResource
+                {
+                    DisplayName = "EDU scope",
+                    Name = "edu",
+                    Description = "Show school member",
+                    UserClaims = new List<string> {"a", "b"},
+                }
             };
         }
 
@@ -90,7 +99,7 @@ namespace IdentityServer
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "api1" }
+                    AllowedScopes = { "api1", "edu" }
                 },
                 // OpenID Connect hybrid flow client (MVC)
                 new Client
@@ -111,7 +120,7 @@ namespace IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
+                        "api1", "edu"
                     },
 
                     AllowOfflineAccess = true
@@ -133,7 +142,7 @@ namespace IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
+                        "api1", "edu"
                     }
                 }
             };
