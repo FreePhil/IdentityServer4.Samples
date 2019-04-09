@@ -87,7 +87,8 @@ namespace QuickstartIdentityServer
                 // JavaScript Client
                 new Client
                 {
-                    ClientId = "js",
+//                    ClientId = "js",
+                    ClientId = "native.code",
                     ClientName = "JavaScript Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
