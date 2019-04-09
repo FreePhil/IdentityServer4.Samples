@@ -5,6 +5,7 @@
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace IdentityServer
 {
@@ -19,6 +20,7 @@ namespace IdentityServer
                     SubjectId = "1",
                     Username = "alice",
                     Password = "password"
+                    
                 },
                 new TestUser
                 {
@@ -33,7 +35,9 @@ namespace IdentityServer
         {
             return new IdentityResource[]
             {
-                new IdentityResources.OpenId()
+                new IdentityResources.OpenId(),
+                new IdentityResources.Email(), 
+                new IdentityResources.Profile(), 
             };
         }
 

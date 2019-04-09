@@ -21,11 +21,12 @@ namespace IdentityServer
                     SubjectId = "1",
                     Username = "alice",
                     Password = "password",
-
+                    
                     Claims = new []
                     {
                         new Claim("name", "Alice"),
-                        new Claim("website", "https://alice.com")
+                        new Claim("website", "https://alice.com"),
+                        new Claim("email", "alice@oidc.com"), 
                     }
                 },
                 new TestUser
@@ -37,7 +38,8 @@ namespace IdentityServer
                     Claims = new []
                     {
                         new Claim("name", "Bob"),
-                        new Claim("website", "https://bob.com")
+                        new Claim("website", "https://bob.com"),
+                        new Claim("email", "bob@oidc.com"), 
                     }
                 }
             };
@@ -49,6 +51,7 @@ namespace IdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
         }
 
@@ -108,7 +111,8 @@ namespace IdentityServer
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
                     }
                 }
             };
