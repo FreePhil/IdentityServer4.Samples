@@ -94,6 +94,31 @@ namespace ExternalIdentityServer
                     AllowOfflineAccess = true, 
                     AlwaysSendClientClaims = true,
                     AlwaysIncludeUserClaimsInIdToken = true
+                },
+                new Client
+                {
+                    ClientId = "id",
+                    ClientName = "Id Server",
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,                   
+                    ClientSecrets = 
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = { "http://localhost:5000/signin-myserver" },
+                    PostLogoutRedirectUris = { "http://localhost:5000/account/logout" },
+                    
+                    AllowedScopes = 
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "edu",
+                        "api"
+                    },
+                    AllowOfflineAccess = true, 
+                    AlwaysSendClientClaims = true,
+                    AlwaysIncludeUserClaimsInIdToken = true
                 }
             };
         }

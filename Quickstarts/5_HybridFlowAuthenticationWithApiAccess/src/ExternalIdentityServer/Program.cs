@@ -11,7 +11,7 @@ namespace ExternalIdentityServer
     {
         public static void Main(string[] args)
         {
-            Console.Title = "ExternalIdentityServer";
+            Console.Title = "IdentityServer";
 
             BuildWebHost(args).Run();
         }
