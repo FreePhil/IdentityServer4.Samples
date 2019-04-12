@@ -23,8 +23,8 @@ namespace MvcClient
                 {
                     options.SignInScheme = "Cookies";
 
-                    options.Authority = "http://localhost:5000";
-                    options.RequireHttpsMetadata = false;
+                    options.Authority = "https://id.hle.com.tw/";
+                    options.RequireHttpsMetadata = true;
 
                     options.ClientId = "mvc";
                     options.ClientSecret = "secret";
@@ -33,8 +33,12 @@ namespace MvcClient
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
 
-                    options.Scope.Add("api1");
-                    options.Scope.Add("offline_access");
+//                    options.Scope.Add("api1");
+                    options.Scope.Add("openid");
+//                    options.Scope.Add("openid2");
+                    options.Scope.Add("profile");
+//                    options.Scope.Add("eduinfo");
+//                    options.Scope.Add("email");
                 });
         }
 
