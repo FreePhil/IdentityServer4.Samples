@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.EntityFramework.Stores;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -30,6 +31,7 @@ namespace IdentityServer4.Quickstart.UI
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        
 
         public AccountController(
             UserManager<ApplicationUser> userManager,

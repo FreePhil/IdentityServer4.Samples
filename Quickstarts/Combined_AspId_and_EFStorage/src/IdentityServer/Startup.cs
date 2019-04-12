@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
+using IdentityServer4.Stores;
 
 namespace IdentityServerAspNetIdentity
 {
@@ -52,6 +53,7 @@ namespace IdentityServerAspNetIdentity
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
+                options.PublicOrigin = "https://id.hle.com.tw";
             })
                 // this adds the config data from DB (clients, resources)
                 .AddConfigurationStore(options =>
@@ -78,7 +80,8 @@ namespace IdentityServerAspNetIdentity
             }
             else
             {
-                throw new Exception("need to configure key material");
+                builder.AddDeveloperSigningCredential();
+//                throw new Exception("need to configure key material");
             }
 
             services.AddAuthentication()
@@ -87,9 +90,11 @@ namespace IdentityServerAspNetIdentity
                     // register your IdentityServer with Google at https://console.developers.google.com
                     // enable the Google+ API
                     // set the redirect URI to http://localhost:5000/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
+                    options.ClientId = "252761815268-itp5jf1roc52kdqslpj82rrvenf9ppih.apps.googleusercontent.com";
+                    options.ClientSecret = "M7JB7BvtRo4xKwvZT4W7Lyjh";
                 });
+
+            services.AddTransient<IPersistedGrantStore, MyStore>();
         }
 
         public void Configure(IApplicationBuilder app)
