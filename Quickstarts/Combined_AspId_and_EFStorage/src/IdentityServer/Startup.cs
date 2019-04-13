@@ -53,7 +53,7 @@ namespace IdentityServerAspNetIdentity
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
-                options.PublicOrigin = "https://id.hle.com.tw";
+//                options.PublicOrigin = "https://id.hle.com.tw";
             })
                 // this adds the config data from DB (clients, resources)
                 .AddConfigurationStore(options =>

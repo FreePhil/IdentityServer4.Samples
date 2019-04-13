@@ -55,15 +55,15 @@ namespace IdentityServerAspNetIdentity
             _context.SaveChanges();
             _logger.LogDebug("key is persisted, {key}", token.Key);
 
-//            try
-//            {
-//                _context.SaveChanges();
-//                _logger.LogDebug("key is persisted, {key}", token.Key);
-//            }
-//            catch (DbUpdateConcurrencyException ex)
-//            {
-//                _logger.LogWarning("exception updating {persistedGrantKey} persisted grant in database: {error}", token.Key, ex.Message);
-//            }
+            try
+            {
+                _context.SaveChanges();
+                _logger.LogDebug("key is persisted, {key}", token.Key);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogWarning("exception updating {persistedGrantKey} persisted grant in database: {error}", token.Key, ex.Message);
+            }
 
             _logger.LogDebug("test: complete storeasync");
             return Task.CompletedTask;
