@@ -1,0 +1,6 @@
+#!/bin/bash
+
+docker image rm hanlin/id_provider:0.1
+docker build -t hanlin/id_provider:0.1 .
+docker save -o provider.tar hanlin/id_provider:0.1
+cp provider.tar ../../../../pem

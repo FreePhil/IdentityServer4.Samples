@@ -51,13 +51,13 @@ namespace IdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResource
-                {
-                    DisplayName = "EDU scope",
-                    Name = "edu",
-                    Description = "Show school member",
-                    UserClaims = new List<string> {"a", "b"},
-                }
+//                new IdentityResource
+//                {
+//                    DisplayName = "EDU scope",
+//                    Name = "edu",
+//                    Description = "Show school member",
+//                    UserClaims = new List<string> {"a", "b"},
+//                }
             };
         }
 
@@ -142,7 +142,46 @@ namespace IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1", "edu"
+                        "api1"
+                    }
+                },
+                // JavaScript Client
+                new Client
+                {
+                    ClientId = "js1",
+                    ClientName = "JavaScript Client-1",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris =           { "http://localhost:5003/callback.html" },
+                    PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
+                    AllowedCorsOrigins =     { "http://localhost:5003" },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                    }
+                },
+                // JavaScript Client
+                new Client
+                {
+                    ClientId = "js2",
+                    ClientName = "JavaScript Client-2",
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris =           { "http://localhost:5003/callback.html" },
+                    PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
+                    AllowedCorsOrigins =     { "http://localhost:5003" },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
                     }
                 }
             };

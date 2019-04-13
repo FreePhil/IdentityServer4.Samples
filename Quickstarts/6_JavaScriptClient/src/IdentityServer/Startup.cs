@@ -3,9 +3,11 @@
 
 
 using System;
+using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -24,27 +26,31 @@ namespace IdentityServer
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
-            var builder = services.AddIdentityServer()
+            var builder = services.AddIdentityServer(options =>
+                {
+                    options.PublicOrigin = "https://id.hle.com.tw";
+                })
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApis())
                 .AddInMemoryClients(Config.GetClients())
                 .AddTestUsers(Config.GetUsers());
 
-            if (Environment.IsDevelopment())
-            {
-                builder.AddDeveloperSigningCredential();
-            }
-            else
-            {
-                throw new Exception("need to configure key material");
-            }
+            builder.AddDeveloperSigningCredential();
+//            if (Environment.IsDevelopment())
+//            {
+//                builder.AddDeveloperSigningCredential();
+//            }
+//            else
+//            {
+//                throw new Exception("need to configure key material");
+//            }
 
             services.AddAuthentication()
                 .AddGoogle("Google", options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                    options.ClientId = "904877914910-i5o6769bend3vuba91lir7umevurip1f.apps.googleusercontent.com";
-                    options.ClientSecret = "Yq05i4fpnmALLPXItDMyXsGT";
+                    options.ClientId = "252761815268-itp5jf1roc52kdqslpj82rrvenf9ppih.apps.googleusercontent.com";
+                    options.ClientSecret = "M7JB7BvtRo4xKwvZT4W7Lyjh";
                 })
                 .AddOpenIdConnect("oidc", "OpenID Connect", options =>
                 {
@@ -60,7 +66,16 @@ namespace IdentityServer
                         NameClaimType = "name",
                         RoleClaimType = "role"
                     };
-                });
+                })
+                .AddOpenIdConnect("moe", "教育部 OIDC", options =>
+                {
+                    options.ClientId = "dd7acb893d2bf25f825c042b138bc769";
+                    options.ClientSecret = "59b89617fe3448ada8d86792c77c13e1d5dcff9c52698dda109adc970504785b";
+                    options.Authority = "https://oidc.tanet.edu.tw/";
+                    options.CallbackPath = new PathString("/signin-moe");
+                    options.ResponseType = "code";
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                });;
         }
 
         public void Configure(IApplicationBuilder app)
