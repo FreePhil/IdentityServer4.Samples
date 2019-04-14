@@ -29,6 +29,7 @@ namespace IdentityServer
             var builder = services.AddIdentityServer(options =>
                 {
                     options.PublicOrigin = "https://id.hle.com.tw";
+                    options.IssuerUri = "https://id.hle.com.tw";
                 })
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApis())

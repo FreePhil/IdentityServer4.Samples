@@ -24,7 +24,7 @@ namespace MvcClient
                 {
                     options.SignInScheme = "Cookies";
 
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = "https://id.hle.com.tw";
                     options.RequireHttpsMetadata = false;
 
                     options.ClientId = "mvc";

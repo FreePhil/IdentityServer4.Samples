@@ -99,7 +99,7 @@ namespace IdentityServer
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "api1", "edu" }
+                    AllowedScopes = { "api1" }
                 },
                 // OpenID Connect hybrid flow client (MVC)
                 new Client
@@ -120,7 +120,7 @@ namespace IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1", "edu"
+                        "api1"
                     },
 
                     AllowOfflineAccess = true
