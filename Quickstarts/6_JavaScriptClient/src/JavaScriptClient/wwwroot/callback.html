@@ -7,7 +7,13 @@
 <body>
     <script src="oidc-client.js"></script>
     <script>
-        new Oidc.UserManager({ response_mode: "query" }).signinRedirectCallback().then(function () {
+        // use for "code" response type
+        var manager = new Oidc.UserManager({response_mode:  "query"});
+        
+        // use for "implicit" response type
+        // var manager = new Oidc.UserManager();
+        
+        manager.signinRedirectCallback().then(function () {
             window.location = "index.html";
         }).catch(function (e) {
             console.error(e);

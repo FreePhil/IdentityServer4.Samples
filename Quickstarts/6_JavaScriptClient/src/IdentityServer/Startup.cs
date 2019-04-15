@@ -29,7 +29,6 @@ namespace IdentityServer
             var builder = services.AddIdentityServer(options =>
                 {
                     options.PublicOrigin = "https://id.hle.com.tw";
-                    options.IssuerUri = "https://id.hle.com.tw";
                 })
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApis())
@@ -76,7 +75,7 @@ namespace IdentityServer
                     options.CallbackPath = new PathString("/signin-moe");
                     options.ResponseType = "code";
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                });;
+                });
         }
 
         public void Configure(IApplicationBuilder app)

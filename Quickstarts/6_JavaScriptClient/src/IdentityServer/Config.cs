@@ -134,9 +134,9 @@ namespace IdentityServer
                     RequirePkce = true,
                     RequireClientSecret = false,
 
-                    RedirectUris =           { "http://localhost:5003/callback.html" },
+                    RedirectUris =           { "http://localhost:5003/callback.html", "http://localhost:3002/callback.html" },
                     PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
-                    AllowedCorsOrigins =     { "http://localhost:5003" },
+                    AllowedCorsOrigins =     { "http://localhost:5003", "http://localhost:3002" },
 
                     AllowedScopes =
                     {
@@ -154,35 +154,17 @@ namespace IdentityServer
                     RequirePkce = true,
                     RequireClientSecret = false,
 
-                    RedirectUris =           { "http://localhost:5003/callback.html" },
+                    RedirectUris =           { "http://localhost:5003/callback.html", "http://localhost:3002/callback.html" },
                     PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
-                    AllowedCorsOrigins =     { "http://localhost:5003" },
-
-                    AllowedScopes =
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                    }
-                },
-                // JavaScript Client
-                new Client
-                {
-                    ClientId = "js2",
-                    ClientName = "JavaScript Client-2",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
-                    RequirePkce = true,
-                    RequireClientSecret = false,
-
-                    RedirectUris =           { "http://localhost:5003/callback.html" },
-                    PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
-                    AllowedCorsOrigins =     { "http://localhost:5003" },
+                    AllowedCorsOrigins =     { "http://localhost:5003", "http://localhost:3002" },
 
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "api1"
-                    }
+                    },
+                    AllowAccessTokensViaBrowser = true,
                 }
             };
         }

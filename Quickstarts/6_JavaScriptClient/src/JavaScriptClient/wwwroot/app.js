@@ -23,17 +23,17 @@ var config = {
     client_id: "js",
     redirect_uri: "http://localhost:5003/callback.html",
     response_type: "code",
-    scope:"openid profile",
+    scope:"openid profile api1",
     post_logout_redirect_uri : "http://localhost:5003/index.html",
 };
 var mgr = new Oidc.UserManager(config);
 
 mgr.getUser().then(function (user) {
     if (user) {
-        log("User logged in", user.profile);
+        log("User logged in js...", user.profile);
     }
     else {
-        log("User not logged in");
+        log("User not logged in js...");
     }
 });
 
