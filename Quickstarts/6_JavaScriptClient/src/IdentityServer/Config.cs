@@ -134,9 +134,9 @@ namespace IdentityServer
                     RequirePkce = true,
                     RequireClientSecret = false,
 
-                    RedirectUris =           { "http://localhost:5003/callback.html", "http://localhost:3002/callback.html" },
-                    PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
-                    AllowedCorsOrigins =     { "http://localhost:5003", "http://localhost:3002" },
+                    RedirectUris =           { "http://localhost:5003/callback.html", "http://localhost:3002/callback.html", "http://localhost:8080/callback.html" },
+                    PostLogoutRedirectUris = { "http://localhost:5003/index.html", "http://localhost:3002/index.html", "http://localhost:8080/index.html" },
+                    AllowedCorsOrigins =     { "http://localhost:5003", "http://localhost:3002", "http://localhost:8080" },
 
                     AllowedScopes =
                     {
@@ -154,9 +154,9 @@ namespace IdentityServer
                     RequirePkce = true,
                     RequireClientSecret = false,
 
-                    RedirectUris =           { "http://localhost:5003/callback.html", "http://localhost:3002/callback.html" },
-                    PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
-                    AllowedCorsOrigins =     { "http://localhost:5003", "http://localhost:3002" },
+                    RedirectUris =           { "http://localhost:5003/callback.html", "http://localhost:3002/callback.html", "http://localhost:8080/callback.html" },
+                    PostLogoutRedirectUris = { "http://localhost:5003/index.html", "http://localhost:3002/index.html", "http://localhost:8080/index.html" },
+                    AllowedCorsOrigins =     { "http://localhost:5003", "http://localhost:3002", "http://localhost:8080" },
 
                     AllowedScopes =
                     {

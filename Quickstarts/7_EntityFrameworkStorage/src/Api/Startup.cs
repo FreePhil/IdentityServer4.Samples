@@ -17,7 +17,7 @@ namespace Api
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = "https://id.hle.com.tw";
                     options.RequireHttpsMetadata = false;
 
                     options.Audience = "api1";

@@ -19,7 +19,7 @@ document.getElementById("api").addEventListener("click", api, false);
 document.getElementById("logout").addEventListener("click", logout, false);
 
 var config = {
-    authority: "http://localhost:5000",
+    authority: "http://52.197.150.85:9055",
     client_id: "js",
     redirect_uri: "http://localhost:5003/callback.html",
     response_type: "code",
@@ -30,10 +30,10 @@ var mgr = new Oidc.UserManager(config);
 
 mgr.getUser().then(function (user) {
     if (user) {
-        log("User logged in", user.profile);
+        log("User logged in: ", user.profile);
     }
     else {
-        log("User not logged in");
+        log("User not logged in port: ", config.authority);
     }
 });
 

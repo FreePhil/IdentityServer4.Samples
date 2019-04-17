@@ -14,8 +14,8 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine3.9 AS runtime
 
 WORKDIR /app
 COPY --from=build-env /app/IdentityServer/out .
-COPY HanlinIdProvier/aspid-user.db ./aspid-user.db
-COPY HanlinIdProvider/tempkey.rsa ./tempkey.rsa
+COPY IdentityServer/tempkey.rsa ./tempkey.rsa
+COPY IdentityServer/aspid-user.db ./aspid-user.db
 
 RUN apk add tzdata && ln -sf /usr/share/zoneinfo/Asia/Taipei /etc/localtime && echo "Asia/Taipei" > /etc/timezone
 ENTRYPOINT ["dotnet", "IdentityServer.dll"]
