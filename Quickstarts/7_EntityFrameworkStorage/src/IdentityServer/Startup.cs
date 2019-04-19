@@ -70,21 +70,21 @@ namespace IdentityServer
             }
 
             services.AddAuthentication()
-                .AddGoogle(options =>
+                .AddGoogle("Google", options =>
                 {
-                    // register your IdentityServer with Google at https://console.developers.google.com
-                    // enable the Google+ API
-                    // set the redirect URI to http://localhost:5000/signin-google
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                     options.ClientId = "252761815268-itp5jf1roc52kdqslpj82rrvenf9ppih.apps.googleusercontent.com";
                     options.ClientSecret = "M7JB7BvtRo4xKwvZT4W7Lyjh";
                 })
                 .AddOpenIdConnect("oidc", "OpenID Connect", options =>
                 {
-                    options.SignInScheme = IdentityConstants.ExternalScheme;
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                     options.SignOutScheme = IdentityServerConstants.SignoutScheme;
+                    options.SaveTokens = true;
 
                     options.Authority = "https://demo.identityserver.io/";
                     options.ClientId = "implicit";
+
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         NameClaimType = "name",
@@ -97,9 +97,9 @@ namespace IdentityServer
                     options.ClientSecret = "59b89617fe3448ada8d86792c77c13e1d5dcff9c52698dda109adc970504785b";
                     options.Authority = "https://oidc.tanet.edu.tw/";
                     options.CallbackPath = new PathString("/signin-moe");
-                    options.ResponseType = OidcConstants.ResponseTypes.Code;
+                    options.ResponseType = "code";
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 });
-
         }
 
         public void Configure(IApplicationBuilder app)
