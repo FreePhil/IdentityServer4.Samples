@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using IdentityServer4;
 using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,10 +28,13 @@ namespace IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
-            const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;database=IdentityServer4.Quickstart.EntityFramework-2.3.0;trusted_connection=yes;";
+//            const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;database=IdentityServer4.Quickstart.EntityFramework-2.3.0;trusted_connection=yes;";
+            const string connectionString = @"Server=10.13.82.5;Port=5432;Database=idserver1;User Id=postgres;Password=superman;";
+//            const string connectionString = @"server=localhost;port=3306;user=root;password=superman;database=idserver";
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
 
             var builder = services.AddIdentityServer()
                 .AddTestUsers(Config.GetUsers())
@@ -38,14 +42,14 @@ namespace IdentityServer
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = b =>
-                        b.UseSqlServer(connectionString,
+                        b.UseNpgsql(connectionString,
                             sql => sql.MigrationsAssembly(migrationsAssembly));
                 })
                 // this adds the operational data from DB (codes, tokens, consents)
                 .AddOperationalStore(options =>
                 {
                     options.ConfigureDbContext = b =>
-                        b.UseSqlServer(connectionString,
+                        b.UseNpgsql(connectionString,
                             sql => sql.MigrationsAssembly(migrationsAssembly));
 
                     // this enables automatic token cleanup. this is optional.
@@ -58,7 +62,8 @@ namespace IdentityServer
             }
             else
             {
-                throw new Exception("need to configure key material");
+                builder.AddDeveloperSigningCredential();
+//                throw new Exception("need to configure key material");
             }
 
             services.AddAuthentication()
@@ -84,6 +89,7 @@ namespace IdentityServer
                         RoleClaimType = "role"
                     };
                 });
+
         }
 
         public void Configure(IApplicationBuilder app)
