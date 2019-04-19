@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
 
 namespace Api
 {
@@ -17,12 +18,10 @@ namespace Api
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = "https://id.hle.com.tw";
                     options.RequireHttpsMetadata = false;
-
                     options.Audience = "api1";
                 });
-
             services.AddCors(options =>
             {
                 // this defines a CORS policy called "default"
