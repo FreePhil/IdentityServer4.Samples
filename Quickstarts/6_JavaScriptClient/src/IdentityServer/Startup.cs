@@ -6,6 +6,7 @@ using System;
 using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -43,9 +44,8 @@ namespace IdentityServer
                 .AddGoogle("Google", options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-                    options.ClientId = "<insert here>";
-                    options.ClientSecret = "<insert here>";
+                    options.ClientId = "252761815268-itp5jf1roc52kdqslpj82rrvenf9ppih.apps.googleusercontent.com";
+                    options.ClientSecret = "M7JB7BvtRo4xKwvZT4W7Lyjh";
                 })
                 .AddOpenIdConnect("oidc", "OpenID Connect", options =>
                 {
@@ -61,6 +61,15 @@ namespace IdentityServer
                         NameClaimType = "name",
                         RoleClaimType = "role"
                     };
+                })
+                .AddOpenIdConnect("moe", "教育部 OIDC", options =>
+                {
+                    options.ClientId = "dd7acb893d2bf25f825c042b138bc769";
+                    options.ClientSecret = "59b89617fe3448ada8d86792c77c13e1d5dcff9c52698dda109adc970504785b";
+                    options.Authority = "https://oidc.tanet.edu.tw/";
+                    options.CallbackPath = new PathString("/signin-moe");
+                    options.ResponseType = "code";
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 });
         }
 
