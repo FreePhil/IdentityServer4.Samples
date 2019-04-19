@@ -31,7 +31,7 @@ namespace IdentityServer
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
 //            const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;database=IdentityServer4.Quickstart.EntityFramework-2.3.0;trusted_connection=yes;";
-            const string connectionString = @"Server=10.13.82.5;Port=5432;Database=idserver1;User Id=postgres;Password=superman;";
+            const string connectionString = @"Server=13.231.173.231;Port=5432;Database=idserver1;User Id=postgres;Password=superman;";
 //            const string connectionString = @"server=localhost;port=3306;user=root;password=superman;database=idserver";
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
