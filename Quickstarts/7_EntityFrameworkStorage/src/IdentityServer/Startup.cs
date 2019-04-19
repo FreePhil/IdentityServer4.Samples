@@ -31,12 +31,12 @@ namespace IdentityServer
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
 //            const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;database=IdentityServer4.Quickstart.EntityFramework-2.3.0;trusted_connection=yes;";
-            const string connectionString = @"Server=13.231.173.231;Port=5432;Database=idserver1;User Id=postgres;Password=superman;";
+            const string connectionString = @"Server=172.30.0.212;Port=5432;Database=idserver1;User Id=postgres;Password=superman;";
 //            const string connectionString = @"server=localhost;port=3306;user=root;password=superman;database=idserver";
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
 
-            var builder = services.AddIdentityServer()
+            var builder = services.AddIdentityServer(options => { options.PublicOrigin = "https://id.hle.com.tw"; })
                 .AddTestUsers(Config.GetUsers())
                 // this adds the config data from DB (clients, resources)
                 .AddConfigurationStore(options =>
@@ -95,7 +95,7 @@ namespace IdentityServer
         public void Configure(IApplicationBuilder app)
         {
             // this will do the initial DB population
-            InitializeDatabase(app);
+            //InitializeDatabase(app);
 
             if (Environment.IsDevelopment())
             {
