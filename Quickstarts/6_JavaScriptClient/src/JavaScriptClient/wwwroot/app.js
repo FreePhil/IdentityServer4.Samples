@@ -23,7 +23,7 @@ var config = {
     client_id: "js",
     redirect_uri: "http://localhost:5003/callback.html",
     response_type: "code",
-    scope:"openid profile api1",
+    scope:"openid profile api1 IdentityServerApi",
     post_logout_redirect_uri : "http://localhost:5003/index.html",
 };
 var mgr = new Oidc.UserManager(config);
@@ -42,16 +42,18 @@ function login() {
 }
 
 function api() {
-    mgr.getUser().then(function (user) {
-        var url = "http://localhost:5001/identity";
-
+    
+    mgr.getUser().then(function(user) {
+        var url = "http://localhost:5001/undefined/0/NewWorldOneSmart/Resource/_size/199/_query/enabled:1;fileStatus:1;resourceCategories:ESO3-2-1;annualIDs:13;";
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url);
         xhr.onload = function () {
             log(xhr.status, JSON.parse(xhr.responseText));
+        };
+        if (user != null) {
+            xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
         }
-        xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
-        xhr.send();
+        xhr.send();   
     });
 }
 
